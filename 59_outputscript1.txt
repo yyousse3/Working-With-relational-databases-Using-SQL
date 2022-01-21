@@ -1,0 +1,80 @@
+Warning: Using a password on the command line interface can be insecure.
+--------------
+SHOW databases
+--------------
+
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| 59_assign2db       |
+| mysql              |
+| performance_schema |
+| vetoffice          |
++--------------------+
+5 rows in set (0.00 sec)
+
+--------------
+DROP DATABASE IF EXISTS 59_assign2db
+--------------
+
+Query OK, 5 rows affected (0.50 sec)
+
+--------------
+CREATE DATABASE 59_assign2db
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+SHOW TABLES
+--------------
+
+Empty set (0.00 sec)
+
+--------------
+CREATE TABLE bus (licenseplatenum VARCHAR(7) NOT NULL, capacity INT NOT NULL, PRIMARY KEY (licenseplatenum))
+--------------
+
+Query OK, 0 rows affected (0.45 sec)
+
+--------------
+CREATE TABLE bustrip (tripid INT NOT NULL, start DATE NOT NULL, end DATE NOT NULL, country VARCHAR(30) NOT NULL, tripname VARCHAR(50) NOT NULL, licenseplatenum VARCHAR(7) NOT NULL, FOREIGN KEY(licenseplatenum) REFERENCES bus(licenseplatenum), PRIMARY KEY(tripid))
+--------------
+
+Query OK, 0 rows affected (0.16 sec)
+
+--------------
+CREATE TABLE passenger (passengernum INT NOT NULL, firstname VARCHAR(20) NOT NULL, lastname VARCHAR(20) NOT NULL, PRIMARY KEY (passengernum))
+--------------
+
+Query OK, 0 rows affected (0.10 sec)
+
+--------------
+CREATE TABLE passport (passportnum VARCHAR(4) NOT NULL, passengernum INT NOT NULL, expiry DATE NOT NULL, citizenship VARCHAR(30) NOT NULL, birth DATE NOT NULL, FOREIGN KEY (passengernum) REFERENCES passenger(passengernum) ON DELETE CASCADE, PRIMARY KEY (passportnum))
+--------------
+
+Query OK, 0 rows affected (0.29 sec)
+
+--------------
+CREATE TABLE bookings (tripid INT NOT NULL, passengernum INT NOT NULL, price DECIMAL(6,2) NOT NULL, FOREIGN KEY (tripid) REFERENCES bustrip(tripid), FOREIGN KEY(passengernum) REFERENCES passenger(passengernum) ON DELETE CASCADE, PRIMARY KEY(tripid,passengernum))
+--------------
+
+Query OK, 0 rows affected (0.15 sec)
+
+--------------
+SHOW TABLES
+--------------
+
++------------------------+
+| Tables_in_59_assign2db |
++------------------------+
+| bookings               |
+| bus                    |
+| bustrip                |
+| passenger              |
+| passport               |
++------------------------+
+5 rows in set (0.00 sec)
+
+Bye

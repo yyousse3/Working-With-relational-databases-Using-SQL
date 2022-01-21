@@ -1,0 +1,1935 @@
+Warning: Using a password on the command line interface can be insecure.
+--------------
+SHOW databases
+--------------
+
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| 59_assign2db       |
+| mysql              |
+| performance_schema |
+| vetoffice          |
++--------------------+
+5 rows in set (0.00 sec)
+
+--------------
+DROP DATABASE IF EXISTS 59_assign2db
+--------------
+
+Query OK, 8 rows affected (0.55 sec)
+
+--------------
+CREATE DATABASE 59_assign2db
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+SHOW TABLES
+--------------
+
+Empty set (0.00 sec)
+
+--------------
+CREATE TABLE bus (licenseplatenum VARCHAR(7) NOT NULL, capacity INT NOT NULL, PRIMARY KEY (licenseplatenum))
+--------------
+
+Query OK, 0 rows affected (0.14 sec)
+
+--------------
+CREATE TABLE bustrip (tripid INT NOT NULL, start DATE NOT NULL, end DATE NOT NULL, country VARCHAR(30) NOT NULL, tripname VARCHAR(50) NOT NULL, licenseplatenum VARCHAR(7) NOT NULL, FOREIGN KEY(licenseplatenum) REFERENCES bus(licenseplatenum), PRIMARY KEY(tripid))
+--------------
+
+Query OK, 0 rows affected (0.16 sec)
+
+--------------
+CREATE TABLE passenger (passengernum INT NOT NULL, firstname VARCHAR(20) NOT NULL, lastname VARCHAR(20) NOT NULL, PRIMARY KEY (passengernum))
+--------------
+
+Query OK, 0 rows affected (0.08 sec)
+
+--------------
+CREATE TABLE passport (passportnum VARCHAR(4) NOT NULL, passengernum INT NOT NULL, expiry DATE NOT NULL, citizenship VARCHAR(30) NOT NULL, birth DATE NOT NULL, FOREIGN KEY (passengernum) REFERENCES passenger(passengernum) ON DELETE CASCADE, PRIMARY KEY (passportnum))
+--------------
+
+Query OK, 0 rows affected (0.29 sec)
+
+--------------
+CREATE TABLE bookings (tripid INT NOT NULL, passengernum INT NOT NULL, price DECIMAL(6,2) NOT NULL, FOREIGN KEY (tripid) REFERENCES bustrip(tripid), FOREIGN KEY(passengernum) REFERENCES passenger(passengernum) ON DELETE CASCADE, PRIMARY KEY(tripid,passengernum))
+--------------
+
+Query OK, 0 rows affected (0.16 sec)
+
+--------------
+SHOW TABLES
+--------------
+
++------------------------+
+| Tables_in_59_assign2db |
++------------------------+
+| bookings               |
+| bus                    |
+| bustrip                |
+| passenger              |
+| passport               |
++------------------------+
+5 rows in set (0.01 sec)
+
+ERROR 1064 (42000) at line 3 in file: '59_script2.sql': You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--Making sure it is the right database
+USE 59_assign2db' at line 1
+--------------
+--Making sure it is the right database
+USE 59_assign2db
+--------------
+
+--------------
+SELECT * FROM bus
+--------------
+
+Empty set (0.00 sec)
+
+--------------
+SELECT * FROM bustrip
+--------------
+
+Empty set (0.00 sec)
+
+--------------
+SELECT * FROM passenger
+--------------
+
+Empty set (0.00 sec)
+
+--------------
+SELECT * FROM passport
+--------------
+
+Empty set (0.00 sec)
+
+--------------
+SELECT * FROM bookings
+--------------
+
+Empty set (0.00 sec)
+
+ERROR 1064 (42000) at line 13 in file: '59_script2.sql': You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--Inserting into bus using the file loaddatafaill2021.txt
+SELECT * FROM bus' at line 1
+--------------
+--Inserting into bus using the file loaddatafaill2021.txt
+SELECT * FROM bus
+--------------
+
+--------------
+LOAD DATA LOCAL INFILE 'loaddatafall2021.txt' INTO TABLE bus FIELDS TERMINATED BY ','
+--------------
+
+Query OK, 8 rows affected (0.01 sec)
+Records: 8  Deleted: 0  Skipped: 0  Warnings: 0
+
+--------------
+SELECT * FROM bus
+--------------
+
++-----------------+----------+
+| licenseplatenum | capacity |
++-----------------+----------+
+| CAND123         |       50 |
+| TAXI111         |        4 |
+| TAXI222         |        3 |
+| TAXI333         |        4 |
+| UWO1122         |       70 |
+| UWO3311         |       62 |
+| VAN1111         |       10 |
+| VAN2222         |       15 |
++-----------------+----------+
+8 rows in set (0.00 sec)
+
+ERROR 1064 (42000) at line 18 in file: '59_script2.sql': You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--Inserting into passenger
+SELECT * FROM passenger' at line 1
+--------------
+--Inserting into passenger
+SELECT * FROM passenger
+--------------
+
+--------------
+INSERT INTO passenger VALUES(11,'Homer','Simpson')
+--------------
+
+Query OK, 1 row affected (0.02 sec)
+
+--------------
+SELECT * FROM passenger
+--------------
+
++--------------+-----------+----------+
+| passengernum | firstname | lastname |
++--------------+-----------+----------+
+|           11 | Homer     | Simpson  |
++--------------+-----------+----------+
+1 row in set (0.00 sec)
+
+--------------
+INSERT INTO passenger VALUES(22,'Marge','Simpson')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM passenger
+--------------
+
++--------------+-----------+----------+
+| passengernum | firstname | lastname |
++--------------+-----------+----------+
+|           11 | Homer     | Simpson  |
+|           22 | Marge     | Simpson  |
++--------------+-----------+----------+
+2 rows in set (0.00 sec)
+
+--------------
+INSERT INTO passenger VALUES(33,'Bart','Simpson')
+--------------
+
+Query OK, 1 row affected (0.02 sec)
+
+--------------
+SELECT * FROM passenger
+--------------
+
++--------------+-----------+----------+
+| passengernum | firstname | lastname |
++--------------+-----------+----------+
+|           11 | Homer     | Simpson  |
+|           22 | Marge     | Simpson  |
+|           33 | Bart      | Simpson  |
++--------------+-----------+----------+
+3 rows in set (0.00 sec)
+
+--------------
+INSERT INTO passenger VALUES(34,'Lisa','Simpson')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM passenger
+--------------
+
++--------------+-----------+----------+
+| passengernum | firstname | lastname |
++--------------+-----------+----------+
+|           11 | Homer     | Simpson  |
+|           22 | Marge     | Simpson  |
+|           33 | Bart      | Simpson  |
+|           34 | Lisa      | Simpson  |
++--------------+-----------+----------+
+4 rows in set (0.00 sec)
+
+--------------
+INSERT INTO passenger VALUES(35,'Maggie','Simpson')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM passenger
+--------------
+
++--------------+-----------+----------+
+| passengernum | firstname | lastname |
++--------------+-----------+----------+
+|           11 | Homer     | Simpson  |
+|           22 | Marge     | Simpson  |
+|           33 | Bart      | Simpson  |
+|           34 | Lisa      | Simpson  |
+|           35 | Maggie    | Simpson  |
++--------------+-----------+----------+
+5 rows in set (0.00 sec)
+
+--------------
+INSERT INTO passenger VALUES(44,'Ned','Flanders')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM passenger
+--------------
+
++--------------+-----------+----------+
+| passengernum | firstname | lastname |
++--------------+-----------+----------+
+|           11 | Homer     | Simpson  |
+|           22 | Marge     | Simpson  |
+|           33 | Bart      | Simpson  |
+|           34 | Lisa      | Simpson  |
+|           35 | Maggie    | Simpson  |
+|           44 | Ned       | Flanders |
++--------------+-----------+----------+
+6 rows in set (0.00 sec)
+
+--------------
+INSERT INTO passenger VALUES(45,'Todd','Flanders')
+--------------
+
+Query OK, 1 row affected (0.08 sec)
+
+--------------
+SELECT * FROM passenger
+--------------
+
++--------------+-----------+----------+
+| passengernum | firstname | lastname |
++--------------+-----------+----------+
+|           11 | Homer     | Simpson  |
+|           22 | Marge     | Simpson  |
+|           33 | Bart      | Simpson  |
+|           34 | Lisa      | Simpson  |
+|           35 | Maggie    | Simpson  |
+|           44 | Ned       | Flanders |
+|           45 | Todd      | Flanders |
++--------------+-----------+----------+
+7 rows in set (0.00 sec)
+
+--------------
+INSERT INTO passenger VALUES(66,'Heidi','Klum')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM passenger
+--------------
+
++--------------+-----------+----------+
+| passengernum | firstname | lastname |
++--------------+-----------+----------+
+|           11 | Homer     | Simpson  |
+|           22 | Marge     | Simpson  |
+|           33 | Bart      | Simpson  |
+|           34 | Lisa      | Simpson  |
+|           35 | Maggie    | Simpson  |
+|           44 | Ned       | Flanders |
+|           45 | Todd      | Flanders |
+|           66 | Heidi     | Klum     |
++--------------+-----------+----------+
+8 rows in set (0.00 sec)
+
+--------------
+INSERT INTO passenger VALUES(77,'Michael','Scott')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM passenger
+--------------
+
++--------------+-----------+----------+
+| passengernum | firstname | lastname |
++--------------+-----------+----------+
+|           11 | Homer     | Simpson  |
+|           22 | Marge     | Simpson  |
+|           33 | Bart      | Simpson  |
+|           34 | Lisa      | Simpson  |
+|           35 | Maggie    | Simpson  |
+|           44 | Ned       | Flanders |
+|           45 | Todd      | Flanders |
+|           66 | Heidi     | Klum     |
+|           77 | Michael   | Scott    |
++--------------+-----------+----------+
+9 rows in set (0.00 sec)
+
+--------------
+INSERT INTO passenger VALUES(78,'Dwight','Schrute')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM passenger
+--------------
+
++--------------+-----------+----------+
+| passengernum | firstname | lastname |
++--------------+-----------+----------+
+|           11 | Homer     | Simpson  |
+|           22 | Marge     | Simpson  |
+|           33 | Bart      | Simpson  |
+|           34 | Lisa      | Simpson  |
+|           35 | Maggie    | Simpson  |
+|           44 | Ned       | Flanders |
+|           45 | Todd      | Flanders |
+|           66 | Heidi     | Klum     |
+|           77 | Michael   | Scott    |
+|           78 | Dwight    | Schrute  |
++--------------+-----------+----------+
+10 rows in set (0.00 sec)
+
+--------------
+INSERT INTO passenger VALUES(79,'Pam','Beesly')
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+SELECT * FROM passenger
+--------------
+
++--------------+-----------+----------+
+| passengernum | firstname | lastname |
++--------------+-----------+----------+
+|           11 | Homer     | Simpson  |
+|           22 | Marge     | Simpson  |
+|           33 | Bart      | Simpson  |
+|           34 | Lisa      | Simpson  |
+|           35 | Maggie    | Simpson  |
+|           44 | Ned       | Flanders |
+|           45 | Todd      | Flanders |
+|           66 | Heidi     | Klum     |
+|           77 | Michael   | Scott    |
+|           78 | Dwight    | Schrute  |
+|           79 | Pam       | Beesly   |
++--------------+-----------+----------+
+11 rows in set (0.00 sec)
+
+--------------
+INSERT INTO passenger VALUES(80,'Creed','Bratton')
+--------------
+
+Query OK, 1 row affected (0.03 sec)
+
+--------------
+SELECT * FROM passenger
+--------------
+
++--------------+-----------+----------+
+| passengernum | firstname | lastname |
++--------------+-----------+----------+
+|           11 | Homer     | Simpson  |
+|           22 | Marge     | Simpson  |
+|           33 | Bart      | Simpson  |
+|           34 | Lisa      | Simpson  |
+|           35 | Maggie    | Simpson  |
+|           44 | Ned       | Flanders |
+|           45 | Todd      | Flanders |
+|           66 | Heidi     | Klum     |
+|           77 | Michael   | Scott    |
+|           78 | Dwight    | Schrute  |
+|           79 | Pam       | Beesly   |
+|           80 | Creed     | Bratton  |
++--------------+-----------+----------+
+12 rows in set (0.00 sec)
+
+--------------
+INSERT INTO passenger VALUES(90,'Luffy','Monkey')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM passenger
+--------------
+
++--------------+-----------+----------+
+| passengernum | firstname | lastname |
++--------------+-----------+----------+
+|           11 | Homer     | Simpson  |
+|           22 | Marge     | Simpson  |
+|           33 | Bart      | Simpson  |
+|           34 | Lisa      | Simpson  |
+|           35 | Maggie    | Simpson  |
+|           44 | Ned       | Flanders |
+|           45 | Todd      | Flanders |
+|           66 | Heidi     | Klum     |
+|           77 | Michael   | Scott    |
+|           78 | Dwight    | Schrute  |
+|           79 | Pam       | Beesly   |
+|           80 | Creed     | Bratton  |
+|           90 | Luffy     | Monkey   |
++--------------+-----------+----------+
+13 rows in set (0.00 sec)
+
+ERROR 1064 (42000) at line 47 in file: '59_script2.sql': You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--Inserting into passports
+SELECT * FROM passport' at line 1
+--------------
+--Inserting into passports
+SELECT * FROM passport
+--------------
+
+--------------
+INSERT INTO passport VALUES('US10',11,'2025-1-1','USA','1970-2-19')
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+SELECT * FROM passport
+--------------
+
++-------------+--------------+------------+-------------+------------+
+| passportnum | passengernum | expiry     | citizenship | birth      |
++-------------+--------------+------------+-------------+------------+
+| US10        |           11 | 2025-01-01 | USA         | 1970-02-19 |
++-------------+--------------+------------+-------------+------------+
+1 row in set (0.00 sec)
+
+--------------
+INSERT INTO passport VALUES('US12',22,'2025-1-1','USA','1972-8-12')
+--------------
+
+Query OK, 1 row affected (0.08 sec)
+
+--------------
+SELECT * FROM passport
+--------------
+
++-------------+--------------+------------+-------------+------------+
+| passportnum | passengernum | expiry     | citizenship | birth      |
++-------------+--------------+------------+-------------+------------+
+| US10        |           11 | 2025-01-01 | USA         | 1970-02-19 |
+| US12        |           22 | 2025-01-01 | USA         | 1972-08-12 |
++-------------+--------------+------------+-------------+------------+
+2 rows in set (0.00 sec)
+
+--------------
+INSERT INTO passport VALUES('US13',33,'2025-1-1','USA','2001-5-12')
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+SELECT * FROM passport
+--------------
+
++-------------+--------------+------------+-------------+------------+
+| passportnum | passengernum | expiry     | citizenship | birth      |
++-------------+--------------+------------+-------------+------------+
+| US10        |           11 | 2025-01-01 | USA         | 1970-02-19 |
+| US12        |           22 | 2025-01-01 | USA         | 1972-08-12 |
+| US13        |           33 | 2025-01-01 | USA         | 2001-05-12 |
++-------------+--------------+------------+-------------+------------+
+3 rows in set (0.00 sec)
+
+--------------
+INSERT INTO passport VALUES('US14',34,'2025-1-1','USA','2004-3-19')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM passport
+--------------
+
++-------------+--------------+------------+-------------+------------+
+| passportnum | passengernum | expiry     | citizenship | birth      |
++-------------+--------------+------------+-------------+------------+
+| US10        |           11 | 2025-01-01 | USA         | 1970-02-19 |
+| US12        |           22 | 2025-01-01 | USA         | 1972-08-12 |
+| US13        |           33 | 2025-01-01 | USA         | 2001-05-12 |
+| US14        |           34 | 2025-01-01 | USA         | 2004-03-19 |
++-------------+--------------+------------+-------------+------------+
+4 rows in set (0.00 sec)
+
+--------------
+INSERT INTO passport VALUES('US15',35,'2025-1-1','USA','2012-9-17')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM passport
+--------------
+
++-------------+--------------+------------+-------------+------------+
+| passportnum | passengernum | expiry     | citizenship | birth      |
++-------------+--------------+------------+-------------+------------+
+| US10        |           11 | 2025-01-01 | USA         | 1970-02-19 |
+| US12        |           22 | 2025-01-01 | USA         | 1972-08-12 |
+| US13        |           33 | 2025-01-01 | USA         | 2001-05-12 |
+| US14        |           34 | 2025-01-01 | USA         | 2004-03-19 |
+| US15        |           35 | 2025-01-01 | USA         | 2012-09-17 |
++-------------+--------------+------------+-------------+------------+
+5 rows in set (0.00 sec)
+
+--------------
+INSERT INTO passport VALUES('US22',44,'2030-4-4','USA','1950-6-11')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM passport
+--------------
+
++-------------+--------------+------------+-------------+------------+
+| passportnum | passengernum | expiry     | citizenship | birth      |
++-------------+--------------+------------+-------------+------------+
+| US10        |           11 | 2025-01-01 | USA         | 1970-02-19 |
+| US12        |           22 | 2025-01-01 | USA         | 1972-08-12 |
+| US13        |           33 | 2025-01-01 | USA         | 2001-05-12 |
+| US14        |           34 | 2025-01-01 | USA         | 2004-03-19 |
+| US15        |           35 | 2025-01-01 | USA         | 2012-09-17 |
+| US22        |           44 | 2030-04-04 | USA         | 1950-06-11 |
++-------------+--------------+------------+-------------+------------+
+6 rows in set (0.00 sec)
+
+--------------
+INSERT INTO passport VALUES('US23',45,'2018-3-3','USA','1940-6-24')
+--------------
+
+Query OK, 1 row affected (0.02 sec)
+
+--------------
+SELECT * FROM passport
+--------------
+
++-------------+--------------+------------+-------------+------------+
+| passportnum | passengernum | expiry     | citizenship | birth      |
++-------------+--------------+------------+-------------+------------+
+| US10        |           11 | 2025-01-01 | USA         | 1970-02-19 |
+| US12        |           22 | 2025-01-01 | USA         | 1972-08-12 |
+| US13        |           33 | 2025-01-01 | USA         | 2001-05-12 |
+| US14        |           34 | 2025-01-01 | USA         | 2004-03-19 |
+| US15        |           35 | 2025-01-01 | USA         | 2012-09-17 |
+| US22        |           44 | 2030-04-04 | USA         | 1950-06-11 |
+| US23        |           45 | 2018-03-03 | USA         | 1940-06-24 |
++-------------+--------------+------------+-------------+------------+
+7 rows in set (0.00 sec)
+
+--------------
+INSERT INTO passport VALUES('GE11',66,'2027-1-1','Germany','1970-7-12')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM passport
+--------------
+
++-------------+--------------+------------+-------------+------------+
+| passportnum | passengernum | expiry     | citizenship | birth      |
++-------------+--------------+------------+-------------+------------+
+| GE11        |           66 | 2027-01-01 | Germany     | 1970-07-12 |
+| US10        |           11 | 2025-01-01 | USA         | 1970-02-19 |
+| US12        |           22 | 2025-01-01 | USA         | 1972-08-12 |
+| US13        |           33 | 2025-01-01 | USA         | 2001-05-12 |
+| US14        |           34 | 2025-01-01 | USA         | 2004-03-19 |
+| US15        |           35 | 2025-01-01 | USA         | 2012-09-17 |
+| US22        |           44 | 2030-04-04 | USA         | 1950-06-11 |
+| US23        |           45 | 2018-03-03 | USA         | 1940-06-24 |
++-------------+--------------+------------+-------------+------------+
+8 rows in set (0.00 sec)
+
+--------------
+INSERT INTO passport VALUES('US88',77,'2030-2-13','Canada','1979-4-25')
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+SELECT * FROM passport
+--------------
+
++-------------+--------------+------------+-------------+------------+
+| passportnum | passengernum | expiry     | citizenship | birth      |
++-------------+--------------+------------+-------------+------------+
+| GE11        |           66 | 2027-01-01 | Germany     | 1970-07-12 |
+| US10        |           11 | 2025-01-01 | USA         | 1970-02-19 |
+| US12        |           22 | 2025-01-01 | USA         | 1972-08-12 |
+| US13        |           33 | 2025-01-01 | USA         | 2001-05-12 |
+| US14        |           34 | 2025-01-01 | USA         | 2004-03-19 |
+| US15        |           35 | 2025-01-01 | USA         | 2012-09-17 |
+| US22        |           44 | 2030-04-04 | USA         | 1950-06-11 |
+| US23        |           45 | 2018-03-03 | USA         | 1940-06-24 |
+| US88        |           77 | 2030-02-13 | Canada      | 1979-04-25 |
++-------------+--------------+------------+-------------+------------+
+9 rows in set (0.01 sec)
+
+--------------
+INSERT INTO passport VALUES('US89',78,'2022-2-2','Canada','1976-4-8')
+--------------
+
+Query OK, 1 row affected (0.07 sec)
+
+--------------
+SELECT * FROM passport
+--------------
+
++-------------+--------------+------------+-------------+------------+
+| passportnum | passengernum | expiry     | citizenship | birth      |
++-------------+--------------+------------+-------------+------------+
+| GE11        |           66 | 2027-01-01 | Germany     | 1970-07-12 |
+| US10        |           11 | 2025-01-01 | USA         | 1970-02-19 |
+| US12        |           22 | 2025-01-01 | USA         | 1972-08-12 |
+| US13        |           33 | 2025-01-01 | USA         | 2001-05-12 |
+| US14        |           34 | 2025-01-01 | USA         | 2004-03-19 |
+| US15        |           35 | 2025-01-01 | USA         | 2012-09-17 |
+| US22        |           44 | 2030-04-04 | USA         | 1950-06-11 |
+| US23        |           45 | 2018-03-03 | USA         | 1940-06-24 |
+| US88        |           77 | 2030-02-13 | Canada      | 1979-04-25 |
+| US89        |           78 | 2022-02-02 | Canada      | 1976-04-08 |
++-------------+--------------+------------+-------------+------------+
+10 rows in set (0.00 sec)
+
+--------------
+INSERT INTO passport VALUES('US90',79,'2020-2-8','Italy','1980-4-4')
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+SELECT * FROM passport
+--------------
+
++-------------+--------------+------------+-------------+------------+
+| passportnum | passengernum | expiry     | citizenship | birth      |
++-------------+--------------+------------+-------------+------------+
+| GE11        |           66 | 2027-01-01 | Germany     | 1970-07-12 |
+| US10        |           11 | 2025-01-01 | USA         | 1970-02-19 |
+| US12        |           22 | 2025-01-01 | USA         | 1972-08-12 |
+| US13        |           33 | 2025-01-01 | USA         | 2001-05-12 |
+| US14        |           34 | 2025-01-01 | USA         | 2004-03-19 |
+| US15        |           35 | 2025-01-01 | USA         | 2012-09-17 |
+| US22        |           44 | 2030-04-04 | USA         | 1950-06-11 |
+| US23        |           45 | 2018-03-03 | USA         | 1940-06-24 |
+| US88        |           77 | 2030-02-13 | Canada      | 1979-04-25 |
+| US89        |           78 | 2022-02-02 | Canada      | 1976-04-08 |
+| US90        |           79 | 2020-02-08 | Italy       | 1980-04-04 |
++-------------+--------------+------------+-------------+------------+
+11 rows in set (0.00 sec)
+
+--------------
+INSERT INTO passport VALUES('US91',80,'2030-1-1','Germany','1959-2-2')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM passport
+--------------
+
++-------------+--------------+------------+-------------+------------+
+| passportnum | passengernum | expiry     | citizenship | birth      |
++-------------+--------------+------------+-------------+------------+
+| GE11        |           66 | 2027-01-01 | Germany     | 1970-07-12 |
+| US10        |           11 | 2025-01-01 | USA         | 1970-02-19 |
+| US12        |           22 | 2025-01-01 | USA         | 1972-08-12 |
+| US13        |           33 | 2025-01-01 | USA         | 2001-05-12 |
+| US14        |           34 | 2025-01-01 | USA         | 2004-03-19 |
+| US15        |           35 | 2025-01-01 | USA         | 2012-09-17 |
+| US22        |           44 | 2030-04-04 | USA         | 1950-06-11 |
+| US23        |           45 | 2018-03-03 | USA         | 1940-06-24 |
+| US88        |           77 | 2030-02-13 | Canada      | 1979-04-25 |
+| US89        |           78 | 2022-02-02 | Canada      | 1976-04-08 |
+| US90        |           79 | 2020-02-08 | Italy       | 1980-04-04 |
+| US91        |           80 | 2030-01-01 | Germany     | 1959-02-02 |
++-------------+--------------+------------+-------------+------------+
+12 rows in set (0.00 sec)
+
+--------------
+INSERT INTO passport VALUES('US92',90,'2027-1-1','Brazil','1997-7-19')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM passport
+--------------
+
++-------------+--------------+------------+-------------+------------+
+| passportnum | passengernum | expiry     | citizenship | birth      |
++-------------+--------------+------------+-------------+------------+
+| GE11        |           66 | 2027-01-01 | Germany     | 1970-07-12 |
+| US10        |           11 | 2025-01-01 | USA         | 1970-02-19 |
+| US12        |           22 | 2025-01-01 | USA         | 1972-08-12 |
+| US13        |           33 | 2025-01-01 | USA         | 2001-05-12 |
+| US14        |           34 | 2025-01-01 | USA         | 2004-03-19 |
+| US15        |           35 | 2025-01-01 | USA         | 2012-09-17 |
+| US22        |           44 | 2030-04-04 | USA         | 1950-06-11 |
+| US23        |           45 | 2018-03-03 | USA         | 1940-06-24 |
+| US88        |           77 | 2030-02-13 | Canada      | 1979-04-25 |
+| US89        |           78 | 2022-02-02 | Canada      | 1976-04-08 |
+| US90        |           79 | 2020-02-08 | Italy       | 1980-04-04 |
+| US91        |           80 | 2030-01-01 | Germany     | 1959-02-02 |
+| US92        |           90 | 2027-01-01 | Brazil      | 1997-07-19 |
++-------------+--------------+------------+-------------+------------+
+13 rows in set (0.00 sec)
+
+ERROR 1064 (42000) at line 76 in file: '59_script2.sql': You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--Inserting into bustrips
+SELECT * FROM bustrip' at line 1
+--------------
+--Inserting into bustrips
+SELECT * FROM bustrip
+--------------
+
+--------------
+INSERT INTO bustrip VALUES(1,'2022-1-1','2022-1-17','Germany','Castles of Germany','VAN1111')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM bustrip
+--------------
+
++--------+------------+------------+---------+--------------------+-----------------+
+| tripid | start      | end        | country | tripname           | licenseplatenum |
++--------+------------+------------+---------+--------------------+-----------------+
+|      1 | 2022-01-01 | 2022-01-17 | Germany | Castles of Germany | VAN1111         |
++--------+------------+------------+---------+--------------------+-----------------+
+1 row in set (0.00 sec)
+
+--------------
+INSERT INTO bustrip VALUES(2,'2022-3-3','2022-3-14','Italy','Tuscany Sunsets','TAXI222')
+--------------
+
+Query OK, 1 row affected (0.02 sec)
+
+--------------
+SELECT * FROM bustrip
+--------------
+
++--------+------------+------------+---------+--------------------+-----------------+
+| tripid | start      | end        | country | tripname           | licenseplatenum |
++--------+------------+------------+---------+--------------------+-----------------+
+|      1 | 2022-01-01 | 2022-01-17 | Germany | Castles of Germany | VAN1111         |
+|      2 | 2022-03-03 | 2022-03-14 | Italy   | Tuscany Sunsets    | TAXI222         |
++--------+------------+------------+---------+--------------------+-----------------+
+2 rows in set (0.00 sec)
+
+--------------
+INSERT INTO bustrip VALUES(3,'2022-5-5','2022-5-10','USA','California Wines','VAN2222')
+--------------
+
+Query OK, 1 row affected (0.02 sec)
+
+--------------
+SELECT * FROM bustrip
+--------------
+
++--------+------------+------------+---------+--------------------+-----------------+
+| tripid | start      | end        | country | tripname           | licenseplatenum |
++--------+------------+------------+---------+--------------------+-----------------+
+|      1 | 2022-01-01 | 2022-01-17 | Germany | Castles of Germany | VAN1111         |
+|      2 | 2022-03-03 | 2022-03-14 | Italy   | Tuscany Sunsets    | TAXI222         |
+|      3 | 2022-05-05 | 2022-05-10 | USA     | California Wines   | VAN2222         |
++--------+------------+------------+---------+--------------------+-----------------+
+3 rows in set (0.01 sec)
+
+--------------
+INSERT INTO bustrip VALUES(4,'2022-4-4','2022-4-14','Bermuda','Beaches Galore','TAXI222')
+--------------
+
+Query OK, 1 row affected (0.08 sec)
+
+--------------
+SELECT * FROM bustrip
+--------------
+
++--------+------------+------------+---------+--------------------+-----------------+
+| tripid | start      | end        | country | tripname           | licenseplatenum |
++--------+------------+------------+---------+--------------------+-----------------+
+|      1 | 2022-01-01 | 2022-01-17 | Germany | Castles of Germany | VAN1111         |
+|      2 | 2022-03-03 | 2022-03-14 | Italy   | Tuscany Sunsets    | TAXI222         |
+|      3 | 2022-05-05 | 2022-05-10 | USA     | California Wines   | VAN2222         |
+|      4 | 2022-04-04 | 2022-04-14 | Bermuda | Beaches Galore     | TAXI222         |
++--------+------------+------------+---------+--------------------+-----------------+
+4 rows in set (0.00 sec)
+
+--------------
+INSERT INTO bustrip VALUES(5,'2022-6-1','2022-6-22','Canada','Cottage Country','CAND123')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM bustrip
+--------------
+
++--------+------------+------------+---------+--------------------+-----------------+
+| tripid | start      | end        | country | tripname           | licenseplatenum |
++--------+------------+------------+---------+--------------------+-----------------+
+|      1 | 2022-01-01 | 2022-01-17 | Germany | Castles of Germany | VAN1111         |
+|      2 | 2022-03-03 | 2022-03-14 | Italy   | Tuscany Sunsets    | TAXI222         |
+|      3 | 2022-05-05 | 2022-05-10 | USA     | California Wines   | VAN2222         |
+|      4 | 2022-04-04 | 2022-04-14 | Bermuda | Beaches Galore     | TAXI222         |
+|      5 | 2022-06-01 | 2022-06-22 | Canada  | Cottage Country    | CAND123         |
++--------+------------+------------+---------+--------------------+-----------------+
+5 rows in set (0.00 sec)
+
+--------------
+INSERT INTO bustrip VALUES(6,'2022-7-5','2022-7-15','Italy','Arrivaderci Roma','TAXI111')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM bustrip
+--------------
+
++--------+------------+------------+---------+--------------------+-----------------+
+| tripid | start      | end        | country | tripname           | licenseplatenum |
++--------+------------+------------+---------+--------------------+-----------------+
+|      1 | 2022-01-01 | 2022-01-17 | Germany | Castles of Germany | VAN1111         |
+|      2 | 2022-03-03 | 2022-03-14 | Italy   | Tuscany Sunsets    | TAXI222         |
+|      3 | 2022-05-05 | 2022-05-10 | USA     | California Wines   | VAN2222         |
+|      4 | 2022-04-04 | 2022-04-14 | Bermuda | Beaches Galore     | TAXI222         |
+|      5 | 2022-06-01 | 2022-06-22 | Canada  | Cottage Country    | CAND123         |
+|      6 | 2022-07-05 | 2022-07-15 | Italy   | Arrivaderci Roma   | TAXI111         |
++--------+------------+------------+---------+--------------------+-----------------+
+6 rows in set (0.00 sec)
+
+--------------
+INSERT INTO bustrip VALUES(7,'2022-9-9','2022-9-29','UK','Shetland and Orkney','TAXI111')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM bustrip
+--------------
+
++--------+------------+------------+---------+---------------------+-----------------+
+| tripid | start      | end        | country | tripname            | licenseplatenum |
++--------+------------+------------+---------+---------------------+-----------------+
+|      1 | 2022-01-01 | 2022-01-17 | Germany | Castles of Germany  | VAN1111         |
+|      2 | 2022-03-03 | 2022-03-14 | Italy   | Tuscany Sunsets     | TAXI222         |
+|      3 | 2022-05-05 | 2022-05-10 | USA     | California Wines    | VAN2222         |
+|      4 | 2022-04-04 | 2022-04-14 | Bermuda | Beaches Galore      | TAXI222         |
+|      5 | 2022-06-01 | 2022-06-22 | Canada  | Cottage Country     | CAND123         |
+|      6 | 2022-07-05 | 2022-07-15 | Italy   | Arrivaderci Roma    | TAXI111         |
+|      7 | 2022-09-09 | 2022-09-29 | UK      | Shetland and Orkney | TAXI111         |
++--------+------------+------------+---------+---------------------+-----------------+
+7 rows in set (0.00 sec)
+
+--------------
+INSERT INTO bustrip VALUES(8,'2022-6-10','2022-6-20','USA','Disney World and Sea World','VAN2222')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM bustrip
+--------------
+
++--------+------------+------------+---------+----------------------------+-----------------+
+| tripid | start      | end        | country | tripname                   | licenseplatenum |
++--------+------------+------------+---------+----------------------------+-----------------+
+|      1 | 2022-01-01 | 2022-01-17 | Germany | Castles of Germany         | VAN1111         |
+|      2 | 2022-03-03 | 2022-03-14 | Italy   | Tuscany Sunsets            | TAXI222         |
+|      3 | 2022-05-05 | 2022-05-10 | USA     | California Wines           | VAN2222         |
+|      4 | 2022-04-04 | 2022-04-14 | Bermuda | Beaches Galore             | TAXI222         |
+|      5 | 2022-06-01 | 2022-06-22 | Canada  | Cottage Country            | CAND123         |
+|      6 | 2022-07-05 | 2022-07-15 | Italy   | Arrivaderci Roma           | TAXI111         |
+|      7 | 2022-09-09 | 2022-09-29 | UK      | Shetland and Orkney        | TAXI111         |
+|      8 | 2022-06-10 | 2022-06-20 | USA     | Disney World and Sea World | VAN2222         |
++--------+------------+------------+---------+----------------------------+-----------------+
+8 rows in set (0.00 sec)
+
+--------------
+INSERT INTO bustrip VALUES(9,'2022-1-10','2022-1-20','Japan','Tokyo Tour','TAXI222')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM bustrip
+--------------
+
++--------+------------+------------+---------+----------------------------+-----------------+
+| tripid | start      | end        | country | tripname                   | licenseplatenum |
++--------+------------+------------+---------+----------------------------+-----------------+
+|      1 | 2022-01-01 | 2022-01-17 | Germany | Castles of Germany         | VAN1111         |
+|      2 | 2022-03-03 | 2022-03-14 | Italy   | Tuscany Sunsets            | TAXI222         |
+|      3 | 2022-05-05 | 2022-05-10 | USA     | California Wines           | VAN2222         |
+|      4 | 2022-04-04 | 2022-04-14 | Bermuda | Beaches Galore             | TAXI222         |
+|      5 | 2022-06-01 | 2022-06-22 | Canada  | Cottage Country            | CAND123         |
+|      6 | 2022-07-05 | 2022-07-15 | Italy   | Arrivaderci Roma           | TAXI111         |
+|      7 | 2022-09-09 | 2022-09-29 | UK      | Shetland and Orkney        | TAXI111         |
+|      8 | 2022-06-10 | 2022-06-20 | USA     | Disney World and Sea World | VAN2222         |
+|      9 | 2022-01-10 | 2022-01-20 | Japan   | Tokyo Tour                 | TAXI222         |
++--------+------------+------------+---------+----------------------------+-----------------+
+9 rows in set (0.00 sec)
+
+--------------
+INSERT INTO bustrip VALUES(10,'2022-2-10','2022-2-20','Japan','Thriller Bark','VAN2222')
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM bustrip
+--------------
+
++--------+------------+------------+---------+----------------------------+-----------------+
+| tripid | start      | end        | country | tripname                   | licenseplatenum |
++--------+------------+------------+---------+----------------------------+-----------------+
+|      1 | 2022-01-01 | 2022-01-17 | Germany | Castles of Germany         | VAN1111         |
+|      2 | 2022-03-03 | 2022-03-14 | Italy   | Tuscany Sunsets            | TAXI222         |
+|      3 | 2022-05-05 | 2022-05-10 | USA     | California Wines           | VAN2222         |
+|      4 | 2022-04-04 | 2022-04-14 | Bermuda | Beaches Galore             | TAXI222         |
+|      5 | 2022-06-01 | 2022-06-22 | Canada  | Cottage Country            | CAND123         |
+|      6 | 2022-07-05 | 2022-07-15 | Italy   | Arrivaderci Roma           | TAXI111         |
+|      7 | 2022-09-09 | 2022-09-29 | UK      | Shetland and Orkney        | TAXI111         |
+|      8 | 2022-06-10 | 2022-06-20 | USA     | Disney World and Sea World | VAN2222         |
+|      9 | 2022-01-10 | 2022-01-20 | Japan   | Tokyo Tour                 | TAXI222         |
+|     10 | 2022-02-10 | 2022-02-20 | Japan   | Thriller Bark              | VAN2222         |
++--------+------------+------------+---------+----------------------------+-----------------+
+10 rows in set (0.00 sec)
+
+ERROR 1064 (42000) at line 99 in file: '59_script2.sql': You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--Inserting into bookings
+SELECT * FROM bookings' at line 1
+--------------
+--Inserting into bookings
+SELECT * FROM bookings
+--------------
+
+--------------
+INSERT INTO bookings VALUES(1,11,500.00)
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM bookings
+--------------
+
++--------+--------------+--------+
+| tripid | passengernum | price  |
++--------+--------------+--------+
+|      1 |           11 | 500.00 |
++--------+--------------+--------+
+1 row in set (0.00 sec)
+
+--------------
+INSERT INTO bookings VALUES(1,22,500.00)
+--------------
+
+Query OK, 1 row affected (0.07 sec)
+
+--------------
+SELECT * FROM bookings
+--------------
+
++--------+--------------+--------+
+| tripid | passengernum | price  |
++--------+--------------+--------+
+|      1 |           11 | 500.00 |
+|      1 |           22 | 500.00 |
++--------+--------------+--------+
+2 rows in set (0.00 sec)
+
+--------------
+INSERT INTO bookings VALUES(1,33,200.00)
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+SELECT * FROM bookings
+--------------
+
++--------+--------------+--------+
+| tripid | passengernum | price  |
++--------+--------------+--------+
+|      1 |           11 | 500.00 |
+|      1 |           22 | 500.00 |
+|      1 |           33 | 200.00 |
++--------+--------------+--------+
+3 rows in set (0.00 sec)
+
+--------------
+INSERT INTO bookings VALUES(1,34,200.00)
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM bookings
+--------------
+
++--------+--------------+--------+
+| tripid | passengernum | price  |
++--------+--------------+--------+
+|      1 |           11 | 500.00 |
+|      1 |           22 | 500.00 |
+|      1 |           33 | 200.00 |
+|      1 |           34 | 200.00 |
++--------+--------------+--------+
+4 rows in set (0.00 sec)
+
+--------------
+INSERT INTO bookings VALUES(1,35,200.00)
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM bookings
+--------------
+
++--------+--------------+--------+
+| tripid | passengernum | price  |
++--------+--------------+--------+
+|      1 |           11 | 500.00 |
+|      1 |           22 | 500.00 |
+|      1 |           33 | 200.00 |
+|      1 |           34 | 200.00 |
+|      1 |           35 | 200.00 |
++--------+--------------+--------+
+5 rows in set (0.00 sec)
+
+--------------
+INSERT INTO bookings VALUES(1,66,600.99)
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM bookings
+--------------
+
++--------+--------------+--------+
+| tripid | passengernum | price  |
++--------+--------------+--------+
+|      1 |           11 | 500.00 |
+|      1 |           22 | 500.00 |
+|      1 |           33 | 200.00 |
+|      1 |           34 | 200.00 |
+|      1 |           35 | 200.00 |
+|      1 |           66 | 600.99 |
++--------+--------------+--------+
+6 rows in set (0.00 sec)
+
+--------------
+INSERT INTO bookings VALUES(8,44,400.00)
+--------------
+
+Query OK, 1 row affected (0.02 sec)
+
+--------------
+SELECT * FROM bookings
+--------------
+
++--------+--------------+--------+
+| tripid | passengernum | price  |
++--------+--------------+--------+
+|      1 |           11 | 500.00 |
+|      1 |           22 | 500.00 |
+|      1 |           33 | 200.00 |
+|      1 |           34 | 200.00 |
+|      1 |           35 | 200.00 |
+|      1 |           66 | 600.99 |
+|      8 |           44 | 400.00 |
++--------+--------------+--------+
+7 rows in set (0.00 sec)
+
+--------------
+INSERT INTO bookings VALUES(8,45,200.00)
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+SELECT * FROM bookings
+--------------
+
++--------+--------------+--------+
+| tripid | passengernum | price  |
++--------+--------------+--------+
+|      1 |           11 | 500.00 |
+|      1 |           22 | 500.00 |
+|      1 |           33 | 200.00 |
+|      1 |           34 | 200.00 |
+|      1 |           35 | 200.00 |
+|      1 |           66 | 600.99 |
+|      8 |           44 | 400.00 |
+|      8 |           45 | 200.00 |
++--------+--------------+--------+
+8 rows in set (0.00 sec)
+
+--------------
+INSERT INTO bookings VALUES(4,78,600.00)
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM bookings
+--------------
+
++--------+--------------+--------+
+| tripid | passengernum | price  |
++--------+--------------+--------+
+|      1 |           11 | 500.00 |
+|      1 |           22 | 500.00 |
+|      1 |           33 | 200.00 |
+|      1 |           34 | 200.00 |
+|      1 |           35 | 200.00 |
+|      1 |           66 | 600.99 |
+|      4 |           78 | 600.00 |
+|      8 |           44 | 400.00 |
+|      8 |           45 | 200.00 |
++--------+--------------+--------+
+9 rows in set (0.00 sec)
+
+--------------
+INSERT INTO bookings VALUES(4,80,600.00)
+--------------
+
+Query OK, 1 row affected (0.06 sec)
+
+--------------
+SELECT * FROM bookings
+--------------
+
++--------+--------------+--------+
+| tripid | passengernum | price  |
++--------+--------------+--------+
+|      1 |           11 | 500.00 |
+|      1 |           22 | 500.00 |
+|      1 |           33 | 200.00 |
+|      1 |           34 | 200.00 |
+|      1 |           35 | 200.00 |
+|      1 |           66 | 600.99 |
+|      4 |           78 | 600.00 |
+|      4 |           80 | 600.00 |
+|      8 |           44 | 400.00 |
+|      8 |           45 | 200.00 |
++--------+--------------+--------+
+10 rows in set (0.00 sec)
+
+--------------
+INSERT INTO bookings VALUES(1,78,550.00)
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM bookings
+--------------
+
++--------+--------------+--------+
+| tripid | passengernum | price  |
++--------+--------------+--------+
+|      1 |           11 | 500.00 |
+|      1 |           22 | 500.00 |
+|      1 |           33 | 200.00 |
+|      1 |           34 | 200.00 |
+|      1 |           35 | 200.00 |
+|      1 |           66 | 600.99 |
+|      1 |           78 | 550.00 |
+|      4 |           78 | 600.00 |
+|      4 |           80 | 600.00 |
+|      8 |           44 | 400.00 |
+|      8 |           45 | 200.00 |
++--------+--------------+--------+
+11 rows in set (0.00 sec)
+
+--------------
+INSERT INTO bookings VALUES(8,33,300.00)
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM bookings
+--------------
+
++--------+--------------+--------+
+| tripid | passengernum | price  |
++--------+--------------+--------+
+|      1 |           11 | 500.00 |
+|      1 |           22 | 500.00 |
+|      1 |           33 | 200.00 |
+|      1 |           34 | 200.00 |
+|      1 |           35 | 200.00 |
+|      1 |           66 | 600.99 |
+|      1 |           78 | 550.00 |
+|      4 |           78 | 600.00 |
+|      4 |           80 | 600.00 |
+|      8 |           33 | 300.00 |
+|      8 |           44 | 400.00 |
+|      8 |           45 | 200.00 |
++--------+--------------+--------+
+12 rows in set (0.00 sec)
+
+--------------
+INSERT INTO bookings VALUES(8,34,300.00)
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+SELECT * FROM bookings
+--------------
+
++--------+--------------+--------+
+| tripid | passengernum | price  |
++--------+--------------+--------+
+|      1 |           11 | 500.00 |
+|      1 |           22 | 500.00 |
+|      1 |           33 | 200.00 |
+|      1 |           34 | 200.00 |
+|      1 |           35 | 200.00 |
+|      1 |           66 | 600.99 |
+|      1 |           78 | 550.00 |
+|      4 |           78 | 600.00 |
+|      4 |           80 | 600.00 |
+|      8 |           33 | 300.00 |
+|      8 |           34 | 300.00 |
+|      8 |           44 | 400.00 |
+|      8 |           45 | 200.00 |
++--------+--------------+--------+
+13 rows in set (0.00 sec)
+
+--------------
+INSERT INTO bookings VALUES(6,11,600.00)
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM bookings
+--------------
+
++--------+--------------+--------+
+| tripid | passengernum | price  |
++--------+--------------+--------+
+|      1 |           11 | 500.00 |
+|      1 |           22 | 500.00 |
+|      1 |           33 | 200.00 |
+|      1 |           34 | 200.00 |
+|      1 |           35 | 200.00 |
+|      1 |           66 | 600.99 |
+|      1 |           78 | 550.00 |
+|      4 |           78 | 600.00 |
+|      4 |           80 | 600.00 |
+|      6 |           11 | 600.00 |
+|      8 |           33 | 300.00 |
+|      8 |           34 | 300.00 |
+|      8 |           44 | 400.00 |
+|      8 |           45 | 200.00 |
++--------+--------------+--------+
+14 rows in set (0.00 sec)
+
+--------------
+INSERT INTO bookings VALUES(6,22,600.00)
+--------------
+
+Query OK, 1 row affected (0.02 sec)
+
+--------------
+SELECT * FROM bookings
+--------------
+
++--------+--------------+--------+
+| tripid | passengernum | price  |
++--------+--------------+--------+
+|      1 |           11 | 500.00 |
+|      1 |           22 | 500.00 |
+|      1 |           33 | 200.00 |
+|      1 |           34 | 200.00 |
+|      1 |           35 | 200.00 |
+|      1 |           66 | 600.99 |
+|      1 |           78 | 550.00 |
+|      4 |           78 | 600.00 |
+|      4 |           80 | 600.00 |
+|      6 |           11 | 600.00 |
+|      6 |           22 | 600.00 |
+|      8 |           33 | 300.00 |
+|      8 |           34 | 300.00 |
+|      8 |           44 | 400.00 |
+|      8 |           45 | 200.00 |
++--------+--------------+--------+
+15 rows in set (0.00 sec)
+
+--------------
+INSERT INTO bookings VALUES(6,33,100.00)
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+SELECT * FROM bookings
+--------------
+
++--------+--------------+--------+
+| tripid | passengernum | price  |
++--------+--------------+--------+
+|      1 |           11 | 500.00 |
+|      1 |           22 | 500.00 |
+|      1 |           33 | 200.00 |
+|      1 |           34 | 200.00 |
+|      1 |           35 | 200.00 |
+|      1 |           66 | 600.99 |
+|      1 |           78 | 550.00 |
+|      4 |           78 | 600.00 |
+|      4 |           80 | 600.00 |
+|      6 |           11 | 600.00 |
+|      6 |           22 | 600.00 |
+|      6 |           33 | 100.00 |
+|      8 |           33 | 300.00 |
+|      8 |           34 | 300.00 |
+|      8 |           44 | 400.00 |
+|      8 |           45 | 200.00 |
++--------+--------------+--------+
+16 rows in set (0.00 sec)
+
+--------------
+INSERT INTO bookings VALUES(6,34,100.00)
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM bookings
+--------------
+
++--------+--------------+--------+
+| tripid | passengernum | price  |
++--------+--------------+--------+
+|      1 |           11 | 500.00 |
+|      1 |           22 | 500.00 |
+|      1 |           33 | 200.00 |
+|      1 |           34 | 200.00 |
+|      1 |           35 | 200.00 |
+|      1 |           66 | 600.99 |
+|      1 |           78 | 550.00 |
+|      4 |           78 | 600.00 |
+|      4 |           80 | 600.00 |
+|      6 |           11 | 600.00 |
+|      6 |           22 | 600.00 |
+|      6 |           33 | 100.00 |
+|      6 |           34 | 100.00 |
+|      8 |           33 | 300.00 |
+|      8 |           34 | 300.00 |
+|      8 |           44 | 400.00 |
+|      8 |           45 | 200.00 |
++--------+--------------+--------+
+17 rows in set (0.00 sec)
+
+--------------
+INSERT INTO bookings VALUES(6,35,100.00)
+--------------
+
+Query OK, 1 row affected (0.07 sec)
+
+--------------
+SELECT * FROM bookings
+--------------
+
++--------+--------------+--------+
+| tripid | passengernum | price  |
++--------+--------------+--------+
+|      1 |           11 | 500.00 |
+|      1 |           22 | 500.00 |
+|      1 |           33 | 200.00 |
+|      1 |           34 | 200.00 |
+|      1 |           35 | 200.00 |
+|      1 |           66 | 600.99 |
+|      1 |           78 | 550.00 |
+|      4 |           78 | 600.00 |
+|      4 |           80 | 600.00 |
+|      6 |           11 | 600.00 |
+|      6 |           22 | 600.00 |
+|      6 |           33 | 100.00 |
+|      6 |           34 | 100.00 |
+|      6 |           35 | 100.00 |
+|      8 |           33 | 300.00 |
+|      8 |           34 | 300.00 |
+|      8 |           44 | 400.00 |
+|      8 |           45 | 200.00 |
++--------+--------------+--------+
+18 rows in set (0.00 sec)
+
+--------------
+INSERT INTO bookings VALUES(7,11,300.00)
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM bookings
+--------------
+
++--------+--------------+--------+
+| tripid | passengernum | price  |
++--------+--------------+--------+
+|      1 |           11 | 500.00 |
+|      1 |           22 | 500.00 |
+|      1 |           33 | 200.00 |
+|      1 |           34 | 200.00 |
+|      1 |           35 | 200.00 |
+|      1 |           66 | 600.99 |
+|      1 |           78 | 550.00 |
+|      4 |           78 | 600.00 |
+|      4 |           80 | 600.00 |
+|      6 |           11 | 600.00 |
+|      6 |           22 | 600.00 |
+|      6 |           33 | 100.00 |
+|      6 |           34 | 100.00 |
+|      6 |           35 | 100.00 |
+|      7 |           11 | 300.00 |
+|      8 |           33 | 300.00 |
+|      8 |           34 | 300.00 |
+|      8 |           44 | 400.00 |
+|      8 |           45 | 200.00 |
++--------+--------------+--------+
+19 rows in set (0.00 sec)
+
+--------------
+INSERT INTO bookings VALUES(7,77,300.00)
+--------------
+
+Query OK, 1 row affected (0.03 sec)
+
+--------------
+SELECT * FROM bookings
+--------------
+
++--------+--------------+--------+
+| tripid | passengernum | price  |
++--------+--------------+--------+
+|      1 |           11 | 500.00 |
+|      1 |           22 | 500.00 |
+|      1 |           33 | 200.00 |
+|      1 |           34 | 200.00 |
+|      1 |           35 | 200.00 |
+|      1 |           66 | 600.99 |
+|      1 |           78 | 550.00 |
+|      4 |           78 | 600.00 |
+|      4 |           80 | 600.00 |
+|      6 |           11 | 600.00 |
+|      6 |           22 | 600.00 |
+|      6 |           33 | 100.00 |
+|      6 |           34 | 100.00 |
+|      6 |           35 | 100.00 |
+|      7 |           11 | 300.00 |
+|      7 |           77 | 300.00 |
+|      8 |           33 | 300.00 |
+|      8 |           34 | 300.00 |
+|      8 |           44 | 400.00 |
+|      8 |           45 | 200.00 |
++--------+--------------+--------+
+20 rows in set (0.00 sec)
+
+--------------
+INSERT INTO bookings VALUES(7,44,300.00)
+--------------
+
+Query OK, 1 row affected (0.01 sec)
+
+--------------
+SELECT * FROM bookings
+--------------
+
++--------+--------------+--------+
+| tripid | passengernum | price  |
++--------+--------------+--------+
+|      1 |           11 | 500.00 |
+|      1 |           22 | 500.00 |
+|      1 |           33 | 200.00 |
+|      1 |           34 | 200.00 |
+|      1 |           35 | 200.00 |
+|      1 |           66 | 600.99 |
+|      1 |           78 | 550.00 |
+|      4 |           78 | 600.00 |
+|      4 |           80 | 600.00 |
+|      6 |           11 | 600.00 |
+|      6 |           22 | 600.00 |
+|      6 |           33 | 100.00 |
+|      6 |           34 | 100.00 |
+|      6 |           35 | 100.00 |
+|      7 |           11 | 300.00 |
+|      7 |           44 | 300.00 |
+|      7 |           77 | 300.00 |
+|      8 |           33 | 300.00 |
+|      8 |           34 | 300.00 |
+|      8 |           44 | 400.00 |
+|      8 |           45 | 200.00 |
++--------+--------------+--------+
+21 rows in set (0.00 sec)
+
+--------------
+INSERT INTO bookings VALUES(10,90,381.00)
+--------------
+
+Query OK, 1 row affected (0.00 sec)
+
+--------------
+SELECT * FROM bookings
+--------------
+
++--------+--------------+--------+
+| tripid | passengernum | price  |
++--------+--------------+--------+
+|      1 |           11 | 500.00 |
+|      1 |           22 | 500.00 |
+|      1 |           33 | 200.00 |
+|      1 |           34 | 200.00 |
+|      1 |           35 | 200.00 |
+|      1 |           66 | 600.99 |
+|      1 |           78 | 550.00 |
+|      4 |           78 | 600.00 |
+|      4 |           80 | 600.00 |
+|      6 |           11 | 600.00 |
+|      6 |           22 | 600.00 |
+|      6 |           33 | 100.00 |
+|      6 |           34 | 100.00 |
+|      6 |           35 | 100.00 |
+|      7 |           11 | 300.00 |
+|      7 |           44 | 300.00 |
+|      7 |           77 | 300.00 |
+|      8 |           33 | 300.00 |
+|      8 |           34 | 300.00 |
+|      8 |           44 | 400.00 |
+|      8 |           45 | 200.00 |
+|     10 |           90 | 381.00 |
++--------+--------------+--------+
+22 rows in set (0.01 sec)
+
+ERROR 1064 (42000) at line 147 in file: '59_script2.sql': You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--Updating the data from passport and bustrips
+SELECT * FROM passport' at line 1
+--------------
+--Updating the data from passport and bustrips
+SELECT * FROM passport
+--------------
+
+--------------
+UPDATE passport, passenger SET citizenship = 'Germany' WHERE passenger.firstname = 'Dwight' AND passenger.lastname = 'Schrute' AND passenger.passengernum = passport.passengernum
+--------------
+
+Query OK, 1 row affected (0.09 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+--------------
+SELECT * FROM passport
+--------------
+
++-------------+--------------+------------+-------------+------------+
+| passportnum | passengernum | expiry     | citizenship | birth      |
++-------------+--------------+------------+-------------+------------+
+| GE11        |           66 | 2027-01-01 | Germany     | 1970-07-12 |
+| US10        |           11 | 2025-01-01 | USA         | 1970-02-19 |
+| US12        |           22 | 2025-01-01 | USA         | 1972-08-12 |
+| US13        |           33 | 2025-01-01 | USA         | 2001-05-12 |
+| US14        |           34 | 2025-01-01 | USA         | 2004-03-19 |
+| US15        |           35 | 2025-01-01 | USA         | 2012-09-17 |
+| US22        |           44 | 2030-04-04 | USA         | 1950-06-11 |
+| US23        |           45 | 2018-03-03 | USA         | 1940-06-24 |
+| US88        |           77 | 2030-02-13 | Canada      | 1979-04-25 |
+| US89        |           78 | 2022-02-02 | Germany     | 1976-04-08 |
+| US90        |           79 | 2020-02-08 | Italy       | 1980-04-04 |
+| US91        |           80 | 2030-01-01 | Germany     | 1959-02-02 |
+| US92        |           90 | 2027-01-01 | Brazil      | 1997-07-19 |
++-------------+--------------+------------+-------------+------------+
+13 rows in set (0.00 sec)
+
+--------------
+SELECT * FROM bustrip
+--------------
+
++--------+------------+------------+---------+----------------------------+-----------------+
+| tripid | start      | end        | country | tripname                   | licenseplatenum |
++--------+------------+------------+---------+----------------------------+-----------------+
+|      1 | 2022-01-01 | 2022-01-17 | Germany | Castles of Germany         | VAN1111         |
+|      2 | 2022-03-03 | 2022-03-14 | Italy   | Tuscany Sunsets            | TAXI222         |
+|      3 | 2022-05-05 | 2022-05-10 | USA     | California Wines           | VAN2222         |
+|      4 | 2022-04-04 | 2022-04-14 | Bermuda | Beaches Galore             | TAXI222         |
+|      5 | 2022-06-01 | 2022-06-22 | Canada  | Cottage Country            | CAND123         |
+|      6 | 2022-07-05 | 2022-07-15 | Italy   | Arrivaderci Roma           | TAXI111         |
+|      7 | 2022-09-09 | 2022-09-29 | UK      | Shetland and Orkney        | TAXI111         |
+|      8 | 2022-06-10 | 2022-06-20 | USA     | Disney World and Sea World | VAN2222         |
+|      9 | 2022-01-10 | 2022-01-20 | Japan   | Tokyo Tour                 | TAXI222         |
+|     10 | 2022-02-10 | 2022-02-20 | Japan   | Thriller Bark              | VAN2222         |
++--------+------------+------------+---------+----------------------------+-----------------+
+10 rows in set (0.00 sec)
+
+--------------
+UPDATE bustrip SET licenseplatenum = 'VAN1111' WHERE country = 'USA'
+--------------
+
+Query OK, 2 rows affected (0.01 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+--------------
+SELECT * FROM bustrip
+--------------
+
++--------+------------+------------+---------+----------------------------+-----------------+
+| tripid | start      | end        | country | tripname                   | licenseplatenum |
++--------+------------+------------+---------+----------------------------+-----------------+
+|      1 | 2022-01-01 | 2022-01-17 | Germany | Castles of Germany         | VAN1111         |
+|      2 | 2022-03-03 | 2022-03-14 | Italy   | Tuscany Sunsets            | TAXI222         |
+|      3 | 2022-05-05 | 2022-05-10 | USA     | California Wines           | VAN1111         |
+|      4 | 2022-04-04 | 2022-04-14 | Bermuda | Beaches Galore             | TAXI222         |
+|      5 | 2022-06-01 | 2022-06-22 | Canada  | Cottage Country            | CAND123         |
+|      6 | 2022-07-05 | 2022-07-15 | Italy   | Arrivaderci Roma           | TAXI111         |
+|      7 | 2022-09-09 | 2022-09-29 | UK      | Shetland and Orkney        | TAXI111         |
+|      8 | 2022-06-10 | 2022-06-20 | USA     | Disney World and Sea World | VAN1111         |
+|      9 | 2022-01-10 | 2022-01-20 | Japan   | Tokyo Tour                 | TAXI222         |
+|     10 | 2022-02-10 | 2022-02-20 | Japan   | Thriller Bark              | VAN2222         |
++--------+------------+------------+---------+----------------------------+-----------------+
+10 rows in set (0.00 sec)
+
+--------------
+SELECT tripname FROM bustrip WHERE country = 'Italy'
+--------------
+
++------------------+
+| tripname         |
++------------------+
+| Tuscany Sunsets  |
+| Arrivaderci Roma |
++------------------+
+2 rows in set (0.00 sec)
+
+--------------
+SELECT DISTINCT lastname FROM passenger
+--------------
+
++----------+
+| lastname |
++----------+
+| Simpson  |
+| Flanders |
+| Klum     |
+| Scott    |
+| Schrute  |
+| Beesly   |
+| Bratton  |
+| Monkey   |
++----------+
+8 rows in set (0.00 sec)
+
+--------------
+SELECT * FROM bustrip ORDER BY tripname
+--------------
+
++--------+------------+------------+---------+----------------------------+-----------------+
+| tripid | start      | end        | country | tripname                   | licenseplatenum |
++--------+------------+------------+---------+----------------------------+-----------------+
+|      6 | 2022-07-05 | 2022-07-15 | Italy   | Arrivaderci Roma           | TAXI111         |
+|      4 | 2022-04-04 | 2022-04-14 | Bermuda | Beaches Galore             | TAXI222         |
+|      3 | 2022-05-05 | 2022-05-10 | USA     | California Wines           | VAN1111         |
+|      1 | 2022-01-01 | 2022-01-17 | Germany | Castles of Germany         | VAN1111         |
+|      5 | 2022-06-01 | 2022-06-22 | Canada  | Cottage Country            | CAND123         |
+|      8 | 2022-06-10 | 2022-06-20 | USA     | Disney World and Sea World | VAN1111         |
+|      7 | 2022-09-09 | 2022-09-29 | UK      | Shetland and Orkney        | TAXI111         |
+|     10 | 2022-02-10 | 2022-02-20 | Japan   | Thriller Bark              | VAN2222         |
+|      9 | 2022-01-10 | 2022-01-20 | Japan   | Tokyo Tour                 | TAXI222         |
+|      2 | 2022-03-03 | 2022-03-14 | Italy   | Tuscany Sunsets            | TAXI222         |
++--------+------------+------------+---------+----------------------------+-----------------+
+10 rows in set (0.00 sec)
+
+--------------
+SELECT tripname, country, start FROM bustrip WHERE start > '2022-4-30'
+--------------
+
++----------------------------+---------+------------+
+| tripname                   | country | start      |
++----------------------------+---------+------------+
+| California Wines           | USA     | 2022-05-05 |
+| Cottage Country            | Canada  | 2022-06-01 |
+| Arrivaderci Roma           | Italy   | 2022-07-05 |
+| Shetland and Orkney        | UK      | 2022-09-09 |
+| Disney World and Sea World | USA     | 2022-06-10 |
++----------------------------+---------+------------+
+5 rows in set (0.00 sec)
+
+--------------
+SELECT firstname,lastname,birth FROM passenger, passport WHERE passenger.passengernum = passport.passengernum AND citizenship = 'USA'
+--------------
+
++-----------+----------+------------+
+| firstname | lastname | birth      |
++-----------+----------+------------+
+| Homer     | Simpson  | 1970-02-19 |
+| Marge     | Simpson  | 1972-08-12 |
+| Bart      | Simpson  | 2001-05-12 |
+| Lisa      | Simpson  | 2004-03-19 |
+| Maggie    | Simpson  | 2012-09-17 |
+| Ned       | Flanders | 1950-06-11 |
+| Todd      | Flanders | 1940-06-24 |
++-----------+----------+------------+
+7 rows in set (0.00 sec)
+
+--------------
+SELECT tripname,capacity FROM bustrip,bus WHERE bus.licenseplatenum = bustrip.licenseplatenum AND start BETWEEN '2022-4-1' AND '2022-9-1'
+--------------
+
++----------------------------+----------+
+| tripname                   | capacity |
++----------------------------+----------+
+| Cottage Country            |       50 |
+| Arrivaderci Roma           |        4 |
+| Beaches Galore             |        3 |
+| California Wines           |       10 |
+| Disney World and Sea World |       10 |
++----------------------------+----------+
+5 rows in set (0.00 sec)
+
+--------------
+SELECT * FROM passenger, passport WHERE passenger.passengernum=passport.passengernum AND (expiry< CURDATE() OR expiry BETWEEN CURDATE() AND ADDDATE(CURDATE(),365))
+--------------
+
++--------------+-----------+----------+-------------+--------------+------------+-------------+------------+
+| passengernum | firstname | lastname | passportnum | passengernum | expiry     | citizenship | birth      |
++--------------+-----------+----------+-------------+--------------+------------+-------------+------------+
+|           45 | Todd      | Flanders | US23        |           45 | 2018-03-03 | USA         | 1940-06-24 |
+|           78 | Dwight    | Schrute  | US89        |           78 | 2022-02-02 | Germany     | 1976-04-08 |
+|           79 | Pam       | Beesly   | US90        |           79 | 2020-02-08 | Italy       | 1980-04-04 |
++--------------+-----------+----------+-------------+--------------+------------+-------------+------------+
+3 rows in set (0.00 sec)
+
+--------------
+SELECT firstname,lastname,tripname FROM passenger,bustrip,bookings WHERE passenger.passengernum = bookings.passengernum AND bookings.tripid =bustrip.tripid AND lastname LIKE 'S%'
+--------------
+
++-----------+----------+----------------------------+
+| firstname | lastname | tripname                   |
++-----------+----------+----------------------------+
+| Homer     | Simpson  | Castles of Germany         |
+| Marge     | Simpson  | Castles of Germany         |
+| Bart      | Simpson  | Castles of Germany         |
+| Lisa      | Simpson  | Castles of Germany         |
+| Maggie    | Simpson  | Castles of Germany         |
+| Dwight    | Schrute  | Castles of Germany         |
+| Dwight    | Schrute  | Beaches Galore             |
+| Homer     | Simpson  | Arrivaderci Roma           |
+| Marge     | Simpson  | Arrivaderci Roma           |
+| Bart      | Simpson  | Arrivaderci Roma           |
+| Lisa      | Simpson  | Arrivaderci Roma           |
+| Maggie    | Simpson  | Arrivaderci Roma           |
+| Homer     | Simpson  | Shetland and Orkney        |
+| Michael   | Scott    | Shetland and Orkney        |
+| Bart      | Simpson  | Disney World and Sea World |
+| Lisa      | Simpson  | Disney World and Sea World |
++-----------+----------+----------------------------+
+16 rows in set (0.01 sec)
+
+--------------
+SELECT Count(*),tripname,bookings.tripid FROM bookings,bustrip WHERE bookings.tripid = bustrip.tripid AND bustrip.tripname = 'Castles of Germany'
+--------------
+
++----------+--------------------+--------+
+| Count(*) | tripname           | tripid |
++----------+--------------------+--------+
+|        7 | Castles of Germany |      1 |
++----------+--------------------+--------+
+1 row in set (0.00 sec)
+
+--------------
+SELECT DISTINCT SUM(price),country FROM bookings, bustrip WHERE bustrip.tripid = bookings.tripid GROUP BY country
+--------------
+
++------------+---------+
+| SUM(price) | country |
++------------+---------+
+|    1200.00 | Bermuda |
+|    2750.99 | Germany |
+|    1500.00 | Italy   |
+|     381.00 | Japan   |
+|     900.00 | UK      |
+|    1200.00 | USA     |
++------------+---------+
+6 rows in set (0.00 sec)
+
+--------------
+SELECT firstname,lastname,citizenship,tripname,country FROM bustrip,bookings,passenger,passport WHERE passport.passengernum = passenger.passengernum AND passenger.passengernum = bookings.passengernum AND bustrip.tripid = bookings.tripid AND bustrip.country <>passport.citizenship
+--------------
+
++-----------+----------+-------------+---------------------+---------+
+| firstname | lastname | citizenship | tripname            | country |
++-----------+----------+-------------+---------------------+---------+
+| Homer     | Simpson  | USA         | Castles of Germany  | Germany |
+| Marge     | Simpson  | USA         | Castles of Germany  | Germany |
+| Bart      | Simpson  | USA         | Castles of Germany  | Germany |
+| Lisa      | Simpson  | USA         | Castles of Germany  | Germany |
+| Maggie    | Simpson  | USA         | Castles of Germany  | Germany |
+| Dwight    | Schrute  | Germany     | Beaches Galore      | Bermuda |
+| Creed     | Bratton  | Germany     | Beaches Galore      | Bermuda |
+| Homer     | Simpson  | USA         | Arrivaderci Roma    | Italy   |
+| Marge     | Simpson  | USA         | Arrivaderci Roma    | Italy   |
+| Bart      | Simpson  | USA         | Arrivaderci Roma    | Italy   |
+| Lisa      | Simpson  | USA         | Arrivaderci Roma    | Italy   |
+| Maggie    | Simpson  | USA         | Arrivaderci Roma    | Italy   |
+| Homer     | Simpson  | USA         | Shetland and Orkney | UK      |
+| Ned       | Flanders | USA         | Shetland and Orkney | UK      |
+| Michael   | Scott    | Canada      | Shetland and Orkney | UK      |
+| Luffy     | Monkey   | Brazil      | Thriller Bark       | Japan   |
++-----------+----------+-------------+---------------------+---------+
+16 rows in set (0.00 sec)
+
+--------------
+SELECT bustrip.tripid,tripname FROM bustrip WHERE bustrip.tripid NOT IN (SELECT bookings.tripid FROM bookings)
+--------------
+
++--------+------------------+
+| tripid | tripname         |
++--------+------------------+
+|      2 | Tuscany Sunsets  |
+|      3 | California Wines |
+|      5 | Cottage Country  |
+|      9 | Tokyo Tour       |
++--------+------------------+
+4 rows in set (0.00 sec)
+
+--------------
+CREATE VIEW totalprice AS SELECT price,citizenship,bookings.passengernum FROM passport,bookings WHERE passport.passengernum= bookings.passengernum
+--------------
+
+Query OK, 0 rows affected (0.01 sec)
+
+--------------
+CREATE VIEW totalprices2 AS SELECT lastname,firstname,SUM(price) maxprice,citizenship FROM passenger,totalprice WHERE totalprice.passengernum = passenger.passengernum GROUP BY totalprice.passengernum
+--------------
+
+Query OK, 0 rows affected (0.00 sec)
+
+--------------
+SELECT MAX(maxprice),firstname,lastname,citizenship FROM totalprices2
+--------------
+
++---------------+-----------+----------+-------------+
+| MAX(maxprice) | firstname | lastname | citizenship |
++---------------+-----------+----------+-------------+
+|       1400.00 | Homer     | Simpson  | USA         |
++---------------+-----------+----------+-------------+
+1 row in set (0.01 sec)
+
+--------------
+SELECT tripid, count(*) FROM bookings GROUP BY tripid HAVING count(*)<4
+--------------
+
++--------+----------+
+| tripid | count(*) |
++--------+----------+
+|      4 |        2 |
+|      7 |        3 |
+|     10 |        1 |
++--------+----------+
+3 rows in set (0.00 sec)
+
+--------------
+CREATE VIEW totalseats AS SELECT tripid, count(*) total FROM bookings GROUP BY tripid
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+
+--------------
+SELECT DISTINCT tripname "Bus Trip Name", total  "Current Number of Passengers",capacity "Capacity of Assigned Bus",bus.licenseplatenum "Current Bus Assigned License Plate" FROM bookings,totalseats,bus,bustrip WHERE bookings.tripid=bustrip.tripid AND bookings.tripid = totalseats.tripid AND totalseats.tripid = bustrip.tripid AND bustrip.licenseplatenum = bus.licenseplatenum AND bus.capacity<total
+--------------
+
++------------------+------------------------------+--------------------------+------------------------------------+
+| Bus Trip Name    | Current Number of Passengers | Capacity of Assigned Bus | Current Bus Assigned License Plate |
++------------------+------------------------------+--------------------------+------------------------------------+
+| Arrivaderci Roma |                            5 |                        4 | TAXI111                            |
++------------------+------------------------------+--------------------------+------------------------------------+
+1 row in set (0.00 sec)
+
+Bye
